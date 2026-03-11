@@ -341,6 +341,25 @@ Per-symbol > MAX_SYMBOL  ────────►  Block that symbol
 
 ---
 
+## ⚠️ Choosing a Leader Wallet
+
+Not all wallets are suitable to copy. Avoid the following:
+
+| Wallet Type | Why to Avoid |
+|---|---|
+| HFT (High-Frequency Trading) bots | Open/close hundreds of trades per minute — fees will destroy your account |
+| Maker bots | Place and cancel limit orders constantly — not real directional trades |
+| Taker bots | Scalp tiny price movements — impossible to copy profitably at retail speed |
+
+**✅ Good leader wallets to follow:**
+- Traders who open **fewer trades** but with **consistent profit**
+- Positions held for **minutes to hours**, not milliseconds
+- Clear directional trades (LONG / SHORT) with reasonable size
+
+> 💡 Tip: Before following a wallet, check their trade history on Hotstuff. Look for traders with a low trade count but high win rate — these are the most copyable.
+
+---
+
 ## ⚠️ Disclaimer
 
 This bot trades real money on mainnet. Copy trading carries significant financial risk — past performance of copied traders does not guarantee future results. Start with small amounts, monitor closely, and never risk more than you can afford to lose. The authors are not responsible for any trading losses.
