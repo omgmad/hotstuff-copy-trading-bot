@@ -25,6 +25,7 @@
           │
           ▼
   Leader closes → Bot closes automatically ✅
+![Demo](copy_bot_demo.gif)
 ```
 
 ---
