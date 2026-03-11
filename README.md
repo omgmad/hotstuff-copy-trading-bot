@@ -5,7 +5,7 @@
 ```
 ╔══════════════════════════════════════════════════════════════╗
 ║  Status: ● RUNNING   API: OK   Ratio: 100%   Sync: 5s       ║
-║  Leader: 0x00000000123456...   Copies today: 26         ║
+║  Leader: 0x02C84f1e9812c45A08...   Copies today: 26         ║
 ║  HYPE-PERP   Mine: -0.86   Leader: -0.86   SHORT ▼          ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
@@ -166,7 +166,76 @@ Once the bot is running, control it via Telegram:
 
 ---
 
-## Run 24/7 with Auto-Restart (systemd)
+## Platform Setup
+
+### 🍎 macOS
+
+```bash
+# 1. Install Python (if not already installed)
+brew install python3
+# Or download from https://www.python.org/downloads/
+
+# 2. Clone repo
+git clone https://github.com/omgmad/hotstuff-copy-trading-bot
+cd hotstuff-copy-trading-bot
+
+# 3. Create venv and install
+python3 -m venv venv
+source venv/bin/activate
+pip install requests msgpack eth-account eth-utils python-dotenv colorama
+
+# 4. Run setup wizard
+python hotstuff_copy_bot.py --setup
+
+# 5. Start bot
+set -a && source .env && set +a
+python hotstuff_copy_bot.py
+```
+
+To run 24/7 on Mac, use **screen** (same as Linux):
+```bash
+screen -S copybot
+source venv/bin/activate
+set -a && source .env && set +a
+python hotstuff_copy_bot.py
+# Ctrl+A, D to detach
+```
+
+---
+
+### 🪟 Windows
+
+```powershell
+# 1. Install Python from https://www.python.org/downloads/
+#    ✅ Check "Add Python to PATH" during installation
+
+# 2. Open Command Prompt or PowerShell and clone repo
+git clone https://github.com/omgmad/hotstuff-copy-trading-bot
+cd hotstuff-copy-trading-bot
+
+# 3. Create venv and install
+python -m venv venv
+venv\Scripts\activate
+pip install requests msgpack eth-account eth-utils python-dotenv colorama
+
+# 4. Run setup wizard
+python hotstuff_copy_bot.py --setup
+
+# 5. Start bot
+python hotstuff_copy_bot.py
+```
+
+> ⚠️ On Windows, `.env` is loaded automatically — no `set -a` needed.
+
+To run 24/7 on Windows, install as a **Task Scheduler** service:
+```powershell
+python hotstuff_copy_bot.py --install
+```
+This creates a Windows Task that starts the bot automatically on login.
+
+---
+
+## Run 24/7 with Auto-Restart (Linux systemd)
 
 To install the bot as a systemd service that starts automatically on boot:
 
@@ -280,7 +349,7 @@ This bot trades real money on mainnet. Copy trading carries significant financia
 
 ## Links
 
-🔴 **Trade on Hotstuff** → [hotstuff.trade](https://app.hotstuff.trade/join/hot)
+🔴 **Trade on Hotstuff** → [Hotstuff.trade](https://app.hotstuff.trade/join/hot)
 
 🐦 **Twitter/X** → [@0mgm4d](https://x.com/0mgm4d)
 
