@@ -280,9 +280,9 @@ This bot trades real money on mainnet. Copy trading carries significant financia
 
 ## Links
 
-🔴 **Trade on Hotstuff** → [app.hotstuff.trade/join/hot](https://app.hotstuff.trade/join/hot)
+🔴 **Trade on Hotstuff** → [hotstuff.trade](https://app.hotstuff.trade/join/hot)
 
-🐦 **Twitter/X** → [@omgmad](https://x.com/omgmad)
+🐦 **Twitter/X** → [@omgmad](https://x.com/0mgm4d)
 
 💻 **GitHub** → [github.com/omgmad/hotstuff-copy-trading-bot](https://github.com/omgmad/hotstuff-copy-trading-bot)
 
