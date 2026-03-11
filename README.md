@@ -5,7 +5,7 @@
 ```
 ╔══════════════════════════════════════════════════════════════╗
 ║  Status: ● RUNNING   API: OK   Ratio: 100%   Sync: 5s       ║
-║  Leader: 0x02C84f1e9812c45A08...   Copies today: 26         ║
+║  Leader: 0x00000000123456...   Copies today: 26         ║
 ║  HYPE-PERP   Mine: -0.86   Leader: -0.86   SHORT ▼          ║
 ╚══════════════════════════════════════════════════════════════╝
 ```
@@ -282,7 +282,7 @@ This bot trades real money on mainnet. Copy trading carries significant financia
 
 🔴 **Trade on Hotstuff** → [hotstuff.trade](https://app.hotstuff.trade/join/hot)
 
-🐦 **Twitter/X** → [@omgmad](https://x.com/0mgm4d)
+🐦 **Twitter/X** → [@0mgm4d](https://x.com/0mgm4d)
 
 💻 **GitHub** → [github.com/omgmad/hotstuff-copy-trading-bot](https://github.com/omgmad/hotstuff-copy-trading-bot)
 
