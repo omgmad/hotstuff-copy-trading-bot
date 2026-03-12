@@ -1002,10 +1002,17 @@ class CopyTradingBot:
         api_raw, api_ok = self.info.get_positions(cfg["wallet_address"])
         if api_ok and api_raw:
             pos = parse_positions(api_raw)
-            # Sync tracker with API
+            log.info(f"My positions from API: {pos}")
+            # API returned data — trust it completely, reset all symbols first
             for sym in cfg["symbols"]:
                 self._my_pos_tracker[sym] = pos.get(sym, 0.0)
             return pos, api_raw
+        if api_ok and not api_raw:
+            # API returned empty list = no open positions — reset tracker
+            log.info("API returned empty positions — resetting all to 0")
+            for sym in cfg["symbols"]:
+                self._my_pos_tracker[sym] = 0.0
+            return {}, []
         # API returned [] — use tracker
         log.debug("Position API empty — using in-memory tracker")
         fake_raw = [
