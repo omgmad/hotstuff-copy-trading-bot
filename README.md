@@ -321,9 +321,66 @@ UNREALIZED_LOSS_LIMIT=8
 
 ---
 
-## 📱 Telegram Commands
+## 📱 Telegram Setup & Commands
 
-If Telegram is configured, you can control the bot remotely from your phone:
+Telegram integration lets you receive trade alerts and control the bot from your phone. Setup takes about 2 minutes.
+
+### Step 1 — Create a Telegram bot & get your token
+
+1. Open Telegram and search for **`@BotFather`**
+2. Start a chat and send `/newbot`
+3. BotFather will ask for a **name** (e.g. `My Copy Bot`) and a **username** (must end in `bot`, e.g. `myhotstuff_bot`)
+4. BotFather replies with your token — it looks like this:
+
+```
+Done! Congratulations on your new bot.
+Use this token to access the HTTP API:
+
+7123456789:AAFxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+5. Copy that token into your `.env`:
+
+```env
+TELEGRAM_TOKEN=7123456789:AAFxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+---
+
+### Step 2 — Get your Chat ID
+
+1. Open Telegram and search for **`@userinfobot`**
+2. Start a chat and send any message (e.g. `/start`)
+3. It replies with your info:
+
+```
+Id: 123456789
+First: John
+...
+```
+
+4. Copy the **Id** number into your `.env`:
+
+```env
+TELEGRAM_CHAT_ID=123456789
+```
+
+---
+
+### Step 3 — Start your bot on Telegram
+
+Before the copy bot can message you, you need to start your Telegram bot once:
+
+1. In Telegram, search for your bot by username (e.g. `@myhotstuff_bot`)
+2. Press **Start** or send `/start`
+
+That's it — the copy bot will now send you alerts.
+
+---
+
+### Commands
+
+Once running, send these commands directly to your Telegram bot:
 
 | Command | Action |
 |---------|--------|
@@ -334,12 +391,21 @@ If Telegram is configured, you can control the bot remotely from your phone:
 | `/stop` | Stop the bot completely |
 | `/pnl` | Detailed PnL breakdown |
 
-### How to set up Telegram notifications
+---
 
-1. Message `@BotFather` on Telegram
-2. Send `/newbot` and follow the steps to create a bot
-3. Copy the **token** into `.env` as `TELEGRAM_TOKEN=`
-4. Message `@userinfobot` to get your **Chat ID** → paste as `TELEGRAM_CHAT_ID=`
+### Example alerts you will receive
+
+```
+📈 Copy Trade
+Symbol: SOL-PERP
+Action: SELL 0.17
+Value:  ~$14.7
+Ratio:  50%
+
+🛑 Bot stopped
+Copies: 12
+Daily loss: $0.82
+```
 
 ---
 
