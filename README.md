@@ -96,7 +96,8 @@ python hotstuff_copy_bot.py --setup
 The wizard will ask for:
 
 - Agent wallet private key
-- Leader wallet address (the trader you want to copy)
+- Your main wallet address
+- - Leader wallet address (the trader you want to copy)
 - Copy ratio (1.0 = mirror exact size, 0.5 = half size)
 - Symbols to trade (e.g. `HYPE-PERP,SOL-PERP`)
 - Max position sizes and risk limits
@@ -120,7 +121,7 @@ The `.env` file contains all settings:
 ```env
 # Agent wallet (created on Hotstuff → API page)
 PRIVATE_KEY=0x_your_agent_private_key
-WALLET_ADDRESS=0x_your_agent_wallet_address
+WALLET_ADDRESS=0x_your_main_wallet_address
 
 # Trader to copy
 LEADER_ADDRESS=0x_leader_wallet_address
