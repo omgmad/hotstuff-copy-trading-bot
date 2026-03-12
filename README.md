@@ -56,9 +56,7 @@
           ▼
   Leader closes position  →  Bot automatically closes too ✅
 ```
-<div align="center">
-  <img src="copy_bot_demo.gif" alt="Hotstuff Copy Bot Demo" width="800"/>
-</div>
+
 The bot polls the leader's positions every 5 seconds. When a change is detected, it immediately places a proportionally scaled order on your account.
 
 ---
@@ -336,13 +334,13 @@ Telegram integration lets you receive trade alerts and control the bot from your
 Done! Congratulations on your new bot.
 Use this token to access the HTTP API:
 
-7123456789:AAFxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+<your_bot_token_here>
 ```
 
 5. Copy that token into your `.env`:
 
 ```env
-TELEGRAM_TOKEN=7123456789:AAFxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TELEGRAM_TOKEN=<your_bot_token_here>
 ```
 
 ---
