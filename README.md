@@ -97,7 +97,7 @@ The wizard will ask for:
 
 - Agent wallet private key
 - Your main wallet address
-- - Leader wallet address (the trader you want to copy)
+- Leader wallet address (the trader you want to copy)
 - Copy ratio (1.0 = mirror exact size, 0.5 = half size)
 - Symbols to trade (e.g. `HYPE-PERP,SOL-PERP`)
 - Max position sizes and risk limits
