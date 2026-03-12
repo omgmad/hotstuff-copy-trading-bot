@@ -56,7 +56,9 @@
           ▼
   Leader closes position  →  Bot automatically closes too ✅
 ```
-
+<div align="center">
+  <img src="copy_bot_demo.gif" alt="Hotstuff Copy Bot Demo" width="800"/>
+</div>
 The bot polls the leader's positions every 5 seconds. When a change is detected, it immediately places a proportionally scaled order on your account.
 
 ---
