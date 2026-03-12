@@ -1,73 +1,132 @@
-# 🤖 Hotstuff Copy Trading Bot
+<div align="center">
 
-> Automated copy trading bot for [Hotstuff.trade](https://app.hotstuff.trade/join/hot) — mirrors top trader positions in real time with risk management, Telegram alerts, and a live terminal dashboard.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,12,20&height=200&section=header&text=Hotstuff%20Copy%20Bot&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=35&desc=Auto-mirror%20top%20traders%20on%20Hotstuff.trade&descAlignY=55&descColor=aaa" width="100%"/>
+
+<br/>
+
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Hotstuff](https://img.shields.io/badge/Hotstuff-Trade-FF4444?style=for-the-badge&logoColor=white)](https://app.hotstuff.trade/join/hot)
+[![License](https://img.shields.io/badge/License-MIT-00C851?style=for-the-badge)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/omgmad/hotstuff-copy-trading-bot?style=for-the-badge&color=FFD700)](https://github.com/omgmad/hotstuff-copy-trading-bot/stargazers)
+
+<br/>
 
 ```
-╔══════════════════════════════════════════════════════════════╗
-║  Status: ● RUNNING   API: OK   Ratio: 100%   Sync: 5s       ║
-║  Leader: 0x01234567890...   Copies today: 26         ║
-║  HYPE-PERP   Mine: -0.86   Leader: -0.86   SHORT ▼          ║
-╚══════════════════════════════════════════════════════════════╝
+╔═══════════════════════════════════════════════════════════════╗
+║  Leader opens SOL-PERP LONG  →  Your bot mirrors instantly   ║
+║  Leader closes position      →  Your bot closes too    ✅    ║
+╚═══════════════════════════════════════════════════════════════╝
 ```
+
+**[🚀 Start Trading](https://app.hotstuff.trade/join/hot)** · **[📊 Find Top Traders](https://hotlytics.vercel.app/)** · **[🐦 Follow Dev](https://x.com/0mgm4d)**
+
+</div>
 
 ---
 
-## How It Works
+## 📌 Table of Contents
 
-```
-  Leader opens HYPE-PERP SHORT $500
-          │
-          ▼
-  Bot detects position change (every 5s)
-          │
-          ▼
-  Bot opens HYPE-PERP SHORT (scaled to your max size)
-          │
-          ▼
-  Leader closes → Bot closes automatically ✅
+- [How It Works](#-how-it-works)
+- [Features](#-features)
+- [Choosing Who to Copy](#-choosing-who-to-copy)
+- [Installation](#-installation)
+- [Configuration `.env`](#️-configuration-env)
+- [Running the Bot](#-running-the-bot)
+- [Running 24/7 on a VPS](#-running-247-on-a-vps)
+- [Risk Management](#️-risk-management)
+- [Telegram Commands](#-telegram-commands)
+- [Disclaimer](#️-disclaimer)
 
-```
-![Demo](copy_bot_demo.gif)
 ---
 
-## Features
+## ⚡ How It Works
+
+```
+  Leader wallet ──► Opens SOL-PERP SHORT $500
+          │
+          ▼  (detected within 5 seconds)
+          │
+  Bot calculates position size:
+  $500 × copy_ratio (0.5) = $250
+  Your MAX_SOL = $30  →  capped at $30
+          │
+          ▼
+  Your wallet ──► Opens SOL-PERP SHORT $30 ✅
+          │
+          ▼
+  Leader closes position  →  Bot automatically closes too ✅
+```
+
+The bot polls the leader's positions every 5 seconds. When a change is detected, it immediately places a proportionally scaled order on your account.
+
+---
+
+## 🎯 Features
 
 | Feature | Description |
-|---|---|
-| ✅ Real-time copy | Polls leader wallet every 5s for position changes |
-| ✅ Position scaling | Mirrors trades proportionally using COPY_RATIO |
-| ✅ Multi-symbol | BTC, ETH, SOL, HYPE, and more |
-| ✅ Risk limits | Daily loss limit, max exposure, unrealized stop-loss |
-| ✅ Telegram alerts | Trade notifications and remote control commands |
-| ✅ Live dashboard | Real-time terminal UI with positions, PnL, risk bars |
-| ✅ Auto-restart | systemd service for 24/7 VPS operation |
-| ✅ Setup wizard | Interactive first-time configuration (`--setup`) |
+|--------|-------------|
+| ⚡ **Real-time sync** | Polls leader positions every 5 seconds |
+| 📐 **Auto sizing** | Scales trade size by copy ratio and max position limits |
+| 🛡️ **Risk limits** | Daily loss limit, unrealized loss limit, max exposure cap |
+| 📱 **Telegram alerts** | Trade notifications, errors, and remote control |
+| 🔄 **Auto close** | Follows leader when they close — no manual action needed |
+| 📊 **Live dashboard** | Real-time positions, PnL, and risk displayed in terminal |
+| 🔁 **Auto-restart** | Recovers automatically from errors |
+| 📝 **PnL history** | Every trade saved to `pnl_history.json` |
 
 ---
 
-## Requirements
+## 🏆 Choosing Who to Copy
+
+> **⚠️ This is the most important step — copying the wrong trader will lose money.**
+
+### [👉 Use Hotlytics Dashboard](https://hotlytics.vercel.app/)
+
+Hotlytics shows the real-time performance of every trader on Hotstuff. Use it to find consistently profitable **manual traders**.
+
+**✅ Good traders to copy:**
+- Consistent long-term PnL (not just one lucky week)
+- Holds positions for hours or days (swing trading)
+- Makes 1–5 trades per day
+- Clear directional bias — not constantly flipping sides
+
+**❌ Do NOT copy these:**
+- **HFT / High Frequency Traders** — trade dozens of times per second, your bot can't keep up and will lose on slippage
+- **Market Makers** — hold positions on both sides simultaneously, copying this causes guaranteed loss
+- **Scalpers** — hold positions for seconds or minutes, orders won't fill in time
+- **Bot traders** — automated systems with patterns that don't copy well
+- **Leverage manipulators** — constantly change leverage to distort position sizing
+
+> 💡 **Tip:** Check a trader's history and look at how long they hold positions. Target traders who hold for 2+ hours on average.
+
+---
+
+## 🛠️ Installation
+
+### Requirements
 
 - Python 3.10+
-- A [Hotstuff.trade](https://app.hotstuff.trade/join/hot) account with funds deposited
-- An **API Wallet (Agent)** created in Hotstuff settings
-- Ubuntu / Debian Linux (or any OS with Python 3.10+)
+- A [Hotstuff.trade](https://app.hotstuff.trade/join/hot) account
+- An agent wallet (see below)
+- At least $10 USDC deposited
 
----
-
-## Installation
-
-### Step 1 — Clone the repo
+### Step 1 — Clone the repository
 
 ```bash
 git clone https://github.com/omgmad/hotstuff-copy-trading-bot
 cd hotstuff-copy-trading-bot
 ```
 
-### Step 2 — Create a Python virtual environment
+### Step 2 — Create a virtual environment
 
 ```bash
 python3 -m venv venv
+
+# Linux / Mac
 source venv/bin/activate
+
+# Windows
+venv\Scripts\activate
 ```
 
 ### Step 3 — Install dependencies
@@ -76,306 +135,245 @@ source venv/bin/activate
 pip install requests msgpack eth-account eth-utils python-dotenv colorama
 ```
 
-### Step 4 — Create an API Wallet on Hotstuff
+### Step 4 — Create an agent wallet
 
-1. Go to [app.hotstuff.trade/api](https://app.hotstuff.trade/api)
-2. Click **"Create API Wallet"**
-3. Give it a name (e.g. `copybot`)
-4. **Copy the Private Key — it is shown only once!**
-5. Copy the Agent Wallet Address
-6. Click **"Authorize API Wallet"** and sign with MetaMask
+1. Go to [Hotstuff.trade](https://app.hotstuff.trade/join/hot)
+2. Navigate to **Settings → Agents → Create Agent**
+3. Save the agent **private key** and your main wallet **address**
 
-> ⚠️ The private key is shown **only once**. Save it somewhere safe before authorizing.
-
-### Step 5 — Run the setup wizard
-
-```bash
-python hotstuff_copy_bot.py --setup
-```
-
-The wizard will ask for:
-
-- Agent wallet private key
-- Your main wallet address
-- Leader wallet address (the trader you want to copy)
-- Copy ratio (1.0 = mirror exact size, 0.5 = half size)
-- Symbols to trade (e.g. `HYPE-PERP,SOL-PERP`)
-- Max position sizes and risk limits
-- Telegram bot token and chat ID (optional)
-
-Configuration is saved to `.env` automatically.
-
-### Step 6 — Start the bot
-
-```bash
-set -a && source .env && set +a
-python hotstuff_copy_bot.py
-```
+> ⚠️ The agent private key is only used to sign orders. Your main wallet's private key is never needed.
 
 ---
 
-## Configuration
+## ⚙️ Configuration `.env`
 
-The `.env` file contains all settings:
+Create a `.env` file in the project folder:
 
 ```env
-# Agent wallet (created on Hotstuff → API page)
-PRIVATE_KEY=0x_your_agent_private_key
-WALLET_ADDRESS=0x_your_main_wallet_address
+# ── Your agent wallet (Hotstuff → Settings → Agents) ──
+PRIVATE_KEY=0x_your_agent_private_key_here
 
-# Trader to copy
-LEADER_ADDRESS=0x_leader_wallet_address
+# ── Your MAIN wallet address ───────────────────────────
+# (NOT the agent address — the address shown in your dashboard)
+WALLET_ADDRESS=0x_your_main_wallet_address_here
 
-# Trading settings
-COPY_RATIO=1.0          # 1.0 = mirror exact %, 0.5 = half size
-SYMBOLS=HYPE-PERP,SOL-PERP,BTC-PERP
+# ── The trader you want to copy (their MAIN wallet) ────
+LEADER_ADDRESS=0x_leader_main_wallet_here
 
-# Per-symbol max position (USD)
+# ── Copy settings ──────────────────────────────────────
+COPY_RATIO=0.5           # 0.5 = copy 50% of leader's size
+SYMBOLS=SOL-PERP,HYPE-PERP  # Leave blank to follow all symbols
+
+# ── Max position per symbol (USD) ──────────────────────
+MAX_BTC=50
+MAX_ETH=50
+MAX_SOL=30
 MAX_HYPE=30
-MAX_SOL=50
-MAX_BTC=100
-MAX_ETH=100
-MAX_TOTAL=100           # Total across all symbols
+MAX_TOTAL=100            # Total exposure cap across all symbols
 
-# Risk limits
-DAILY_LOSS_LIMIT=5      # Halt bot if daily loss exceeds this (USD)
-UNREALIZED_LOSS_LIMIT=10  # Force-close if unrealized loss exceeds this (USD)
+# ── Risk limits ────────────────────────────────────────
+DAILY_LOSS_LIMIT=10      # Bot halts if daily loss exceeds this ($)
+UNREALIZED_LOSS_LIMIT=15 # Force-closes all positions if exceeded ($)
 
-# Sync interval
-SYNC_INTERVAL=5         # Poll interval in seconds
+# ── Telegram (optional) ────────────────────────────────
+TELEGRAM_TOKEN=
+TELEGRAM_CHAT_ID=
 
-# Telegram (optional)
-TELEGRAM_TOKEN=1234567890:ABCdef...
-TELEGRAM_CHAT_ID=123456789
+# ── Sync interval ──────────────────────────────────────
+SYNC_INTERVAL=5          # How often to check leader positions (seconds)
+```
+
+### Key distinction
+
+```
+WALLET_ADDRESS  = YOUR main wallet address  (not the agent!)
+LEADER_ADDRESS  = the trader you are copying  (their main wallet)
+PRIVATE_KEY     = YOUR agent's private key  (used for signing only)
 ```
 
 ---
 
-## Telegram Commands
+## 🚀 Running the Bot
 
-Once the bot is running, control it via Telegram:
+```bash
+# First-time setup wizard
+python hotstuff_copy_bot.py --setup
 
-| Command | Action |
-|---|---|
-| `/status` | Show current positions, PnL, and risk |
-| `/pnl` | Show today's PnL summary |
-| `/pause` | Stop copying new trades |
-| `/resume` | Resume copying |
-| `/close` | Close all open positions (market order) |
-| `/restart` | Restart the bot |
-| `/stop` | Stop bot completely |
-| `/help` | Show all commands |
+# Normal start
+python hotstuff_copy_bot.py
+
+# Dashboard only (no trading)
+python hotstuff_copy_bot.py --dashboard
+```
+
+On successful start:
+
+```
+╔══════════════════════════════════════════════════════╗
+║   🤖  Hotstuff Copy Trading Bot v1.3                 ║
+║   Press Ctrl+C at any time to stop.                  ║
+╚══════════════════════════════════════════════════════╝
+
+  Leader:  0x02C84f1e9812c45A...
+  Wallet:  0x5cca2c4D0f17A08...
+  Ratio:   50%
+  Symbols: SOL-PERP, HYPE-PERP
+
+  Start bot? [yes/no]: yes
+```
+
+**Live terminal dashboard:**
+
+```
+🤖 Hotstuff Copy Bot v1.3                    updated 09:04:15
+══════════════════════════════════════════════════════════════
+  Status: ● RUNNING   API: OK   Ratio: 50%   Sync: 5s
+  Leader: 0x02C84f1e9812c45A08...   Copies today: 3
+──────────────────────────────────────────────────────────────
+  POSITIONS
+  Symbol         Mine      Leader   Side        Exposure   Max
+  SOL-PERP    -0.1700    -1.3800   SHORT ▼    $  14.7   $  15
+             [███████░] 98%
+──────────────────────────────────────────────────────────────
+  RISK
+  Exposure   [████░░░░░░] $14.7 / $30
+  Daily loss [░░░░░░░░░░] $0.00 / $10
+  Unrealized  $+0.12  (limit: -$15)
+──────────────────────────────────────────────────────────────
+  RECENT TRADES
+  09:04:15  SOL-PERP    SELL   $  15.0   fee $0.011
+  08:42:50  SOL-PERP    SELL   $  15.0   fee $0.011
+```
 
 ---
 
-## Platform Setup
+## 🖥️ Running 24/7 on a VPS
 
-### 🍎 macOS
+For continuous operation, use a cheap VPS (Vultr, DigitalOcean, Hetzner — ~$5/month).
+
+### Ubuntu VPS setup
 
 ```bash
-# 1. Install Python (if not already installed)
-brew install python3
-# Or download from https://www.python.org/downloads/
+# 1. Update system
+sudo apt update && sudo apt upgrade -y
+sudo apt install python3 python3-pip python3-venv screen git -y
 
 # 2. Clone repo
 git clone https://github.com/omgmad/hotstuff-copy-trading-bot
 cd hotstuff-copy-trading-bot
 
-# 3. Create venv and install
+# 3. Virtual environment
 python3 -m venv venv
 source venv/bin/activate
 pip install requests msgpack eth-account eth-utils python-dotenv colorama
 
-# 4. Run setup wizard
-python hotstuff_copy_bot.py --setup
+# 4. Configure
+nano .env   # paste your settings from above
 
-# 5. Start bot
-set -a && source .env && set +a
-python hotstuff_copy_bot.py
-```
-
-To run 24/7 on Mac, use **screen** (same as Linux):
-```bash
+# 5. Run inside screen (stays alive after you disconnect)
 screen -S copybot
 source venv/bin/activate
-set -a && source .env && set +a
-python hotstuff_copy_bot.py
-# Ctrl+A, D to detach
-```
-
----
-
-### 🪟 Windows
-
-```powershell
-# 1. Install Python from https://www.python.org/downloads/
-#    ✅ Check "Add Python to PATH" during installation
-
-# 2. Open Command Prompt or PowerShell and clone repo
-git clone https://github.com/omgmad/hotstuff-copy-trading-bot
-cd hotstuff-copy-trading-bot
-
-# 3. Create venv and install
-python -m venv venv
-venv\Scripts\activate
-pip install requests msgpack eth-account eth-utils python-dotenv colorama
-
-# 4. Run setup wizard
-python hotstuff_copy_bot.py --setup
-
-# 5. Start bot
-python hotstuff_copy_bot.py
-```
-
-> ⚠️ On Windows, `.env` is loaded automatically — no `set -a` needed.
-
-To run 24/7 on Windows, install as a **Task Scheduler** service:
-```powershell
-python hotstuff_copy_bot.py --install
-```
-This creates a Windows Task that starts the bot automatically on login.
-
----
-
-## Run 24/7 with Auto-Restart (Linux systemd)
-
-To install the bot as a systemd service that starts automatically on boot:
-
-```bash
-set -a && source .env && set +a
-python hotstuff_copy_bot.py --install
-```
-
-Then manage it with:
-
-```bash
-sudo systemctl start  hotstuff-copy-bot
-sudo systemctl stop   hotstuff-copy-bot
-sudo systemctl status hotstuff-copy-bot
-sudo journalctl -u hotstuff-copy-bot -f   # live logs
-```
-
----
-
-## Run 24/7 with screen (simple alternative)
-
-```bash
-screen -S copybot
-source venv/bin/activate
-set -a && source .env && set +a
 python hotstuff_copy_bot.py
 
-# Detach — bot keeps running in background
-# Press Ctrl+A, then D
+# Press Ctrl+A then D to detach — bot keeps running
+```
 
-# Reattach later
+### Reconnect later
+
+```bash
 screen -r copybot
 ```
 
----
-
-## Shortcut alias (optional)
-
-Add this to `~/.bashrc` to start the bot with a single command:
+### Useful log commands
 
 ```bash
-echo 'alias hotbot="cd ~/hotstuff-copy-trading-bot && source venv/bin/activate && set -a && source .env && set +a && python hotstuff_copy_bot.py"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-Then just run:
-
-```bash
-hotbot
+tail -50 copy_bot.log
+grep "filled" copy_bot.log | tail -20        # Successful fills
+grep "API response" copy_bot.log | tail -10  # Latest API responses
+grep "OPEN\|CLOSE" copy_bot.log | tail -20   # All order attempts
 ```
 
 ---
 
-## VPS Setup (Ubuntu from scratch)
+## 🛡️ Risk Management
 
-```bash
-# 1. Update system
-sudo apt update && sudo apt upgrade -y
-
-# 2. Install Python and screen
-sudo apt install python3 python3-pip python3-venv screen -y
-
-# 3. Clone repo
-git clone https://github.com/omgmad/hotstuff-copy-trading-bot
-cd hotstuff-copy-trading-bot
-
-# 4. Create venv and install
-python3 -m venv venv
-source venv/bin/activate
-pip install requests msgpack eth-account eth-utils python-dotenv colorama
-
-# 5. Run setup wizard
-python hotstuff_copy_bot.py --setup
-
-# 6. Start bot
-set -a && source .env && set +a
-python hotstuff_copy_bot.py
 ```
+DAILY_LOSS_LIMIT hit      ──► Bot halts + closes all positions
+UNREALIZED_LOSS_LIMIT hit ──► Immediately force-closes all (market order)
+MAX_TOTAL exceeded         ──► Blocks all new positions
+MAX_{SYMBOL} exceeded      ──► Blocks new positions for that symbol only
+```
+
+### Safe starter config (beginners)
+
+```env
+COPY_RATIO=0.3
+MAX_SOL=15
+MAX_HYPE=15
+MAX_TOTAL=30
+DAILY_LOSS_LIMIT=5
+UNREALIZED_LOSS_LIMIT=8
+```
+
+> ⚠️ **Always start small.** Run the bot for a few hours with minimal capital before scaling up.
 
 ---
 
-## File Structure
+## 📱 Telegram Commands
 
-```
-hotstuff-copy-trading-bot/
-├── hotstuff_copy_bot.py   # Main bot
-├── .env                   # Your config (auto-created by --setup)
-├── copy_bot.log           # Log file
-├── pnl_history.json       # PnL history (auto-created)
-└── venv/                  # Python virtual environment
-```
+If Telegram is configured, you can control the bot remotely from your phone:
 
----
+| Command | Action |
+|---------|--------|
+| `/status` | Current positions, PnL, bot status |
+| `/pause` | Pause copying (keeps existing positions open) |
+| `/resume` | Resume copying |
+| `/close` | Close all positions immediately (market order) |
+| `/stop` | Stop the bot completely |
+| `/pnl` | Detailed PnL breakdown |
 
-## Risk Management
+### How to set up Telegram notifications
 
-```
-Daily loss limit hit  ──────────►  HALT + close all positions + Telegram alert
-Unrealized loss > limit  ────────►  Force-close all positions
-Total exposure > MAX_TOTAL  ─────►  Block new trades
-Per-symbol > MAX_SYMBOL  ────────►  Block that symbol
-```
-
----
-
-## ⚠️ Choosing a Leader Wallet
-
-Not all wallets are suitable to copy. Avoid the following:
-
-| Wallet Type | Why to Avoid |
-|---|---|
-| HFT (High-Frequency Trading) bots | Open/close hundreds of trades per minute — fees will destroy your account |
-| Maker bots | Place and cancel limit orders constantly — not real directional trades |
-| Taker bots | Scalp tiny price movements — impossible to copy profitably at retail speed |
-
-**✅ Good leader wallets to follow:**
-- Traders who open **fewer trades** but with **consistent profit**
-- Positions held for **minutes to hours**, not milliseconds
-- Clear directional trades (LONG / SHORT) with reasonable size
-
-> 💡 Tip: Before following a wallet, check their trade history on Hotstuff. Look for traders with a low trade count but high win rate — these are the most copyable.
+1. Message `@BotFather` on Telegram
+2. Send `/newbot` and follow the steps to create a bot
+3. Copy the **token** into `.env` as `TELEGRAM_TOKEN=`
+4. Message `@userinfobot` to get your **Chat ID** → paste as `TELEGRAM_CHAT_ID=`
 
 ---
 
 ## ⚠️ Disclaimer
 
-This bot trades real money on mainnet. Copy trading carries significant financial risk — past performance of copied traders does not guarantee future results. Start with small amounts, monitor closely, and never risk more than you can afford to lose. The authors are not responsible for any trading losses.
+> **RISK WARNING:** This bot trades real money on mainnet. Copy trading carries significant financial risk. Past performance of any copied trader does not guarantee future results. You may lose some or all of your capital. Use entirely at your own risk.
+
+- 🔴 Never invest more than you can afford to lose
+- 🔴 Do not copy HFT, Market Maker, or scalper traders
+- 🔴 Always test with a small amount before scaling up
+- 🔴 Never share your `.env` file or private key with anyone
+- 🔴 Secure your VPS — treat it like a wallet
+- 🔴 Check your local regulations regarding automated trading
 
 ---
 
-## Links
+<div align="center">
 
-🔴 **Trade on Hotstuff** → [Hotstuff.trade](https://app.hotstuff.trade/join/hot)
+## 🔗 Links
 
-🐦 **Twitter/X** → [@0mgm4d](https://x.com/0mgm4d)
+<a href="https://app.hotstuff.trade/join/hot">
+<img src="https://img.shields.io/badge/🔴_Hotstuff.trade-Join_Now-FF4444?style=for-the-badge" />
+</a>
+&nbsp;
+<a href="https://hotlytics.vercel.app/">
+<img src="https://img.shields.io/badge/📊_Hotlytics-Find_Top_Traders-00C851?style=for-the-badge" />
+</a>
+&nbsp;
+<a href="https://x.com/0mgm4d">
+<img src="https://img.shields.io/badge/🐦_Twitter-@0mgm4d-1DA1F2?style=for-the-badge" />
+</a>
 
-💻 **GitHub** → [github.com/omgmad/hotstuff-copy-trading-bot](https://github.com/omgmad/hotstuff-copy-trading-bot)
+<br/><br/>
 
----
+**If this helped you, please give it a ⭐ Star — it means a lot!**
 
-*⭐ Star the repo if this helps you!*
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,12,20&height=100&section=footer" width="100%"/>
+
+</div>
