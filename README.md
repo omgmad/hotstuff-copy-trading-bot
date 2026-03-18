@@ -72,7 +72,7 @@ The bot polls the leader's positions every 5 seconds. When a change is detected,
 | 📐 **Auto sizing** | Scales trade size by copy ratio and max position limits |
 | 🛡️ **Risk limits** | Daily loss limit, unrealized loss limit, max exposure cap |
 | 📱 **Telegram alerts** | Trade notifications, errors, and remote control |
-| 🔄 **Auto close** | Follows leader when they close — no manual action needed |
+| 🔄 **Auto close** | Follows leader when they close - no manual action needed |
 | 📊 **Live dashboard** | Real-time positions, PnL, and risk displayed in terminal |
 | 🔁 **Auto-restart** | Recovers automatically from errors |
 | 📝 **PnL history** | Every trade saved to `pnl_history.json` |
@@ -81,7 +81,7 @@ The bot polls the leader's positions every 5 seconds. When a change is detected,
 
 ## 🏆 Choosing Who to Copy
 
-> **⚠️ This is the most important step — copying the wrong trader will lose money.**
+> **⚠️ This is the most important step - copying the wrong trader will lose money.**
 
 ### [👉 Use Hotlytics Dashboard](https://hotlytics.vercel.app/)
 
@@ -91,14 +91,14 @@ Hotlytics shows the real-time performance of every trader on Hotstuff. Use it to
 - Consistent long-term PnL (not just one lucky week)
 - Holds positions for hours or days (swing trading)
 - Makes 1–5 trades per day
-- Clear directional bias — not constantly flipping sides
+- Clear directional bias - not constantly flipping sides
 
 **❌ Do NOT copy these:**
-- **HFT / High Frequency Traders** — trade dozens of times per second, your bot can't keep up and will lose on slippage
-- **Market Makers** — hold positions on both sides simultaneously, copying this causes guaranteed loss
-- **Scalpers** — hold positions for seconds or minutes, orders won't fill in time
-- **Bot traders** — automated systems with patterns that don't copy well
-- **Leverage manipulators** — constantly change leverage to distort position sizing
+- **HFT / High Frequency Traders** - trade dozens of times per second, your bot can't keep up and will lose on slippage
+- **Market Makers** - hold positions on both sides simultaneously, copying this causes guaranteed loss
+- **Scalpers** - hold positions for seconds or minutes, orders won't fill in time
+- **Bot traders** - automated systems with patterns that don't copy well
+- **Leverage manipulators** - constantly change leverage to distort position sizing
 
 > 💡 **Tip:** Check a trader's history and look at how long they hold positions. Target traders who hold for 2+ hours on average.
 
@@ -113,14 +113,14 @@ Hotlytics shows the real-time performance of every trader on Hotstuff. Use it to
 - An agent wallet (see below)
 - At least $10 USDC deposited
 
-### Step 1 — Clone the repository
+### Step 1 - Clone the repository
 
 ```bash
 git clone https://github.com/omgmad/hotstuff-copy-trading-bot
 cd hotstuff-copy-trading-bot
 ```
 
-### Step 2 — Create a virtual environment
+### Step 2 - Create a virtual environment
 
 ```bash
 python3 -m venv venv
@@ -132,13 +132,13 @@ source venv/bin/activate
 venv\Scripts\activate
 ```
 
-### Step 3 — Install dependencies
+### Step 3 - Install dependencies
 
 ```bash
 pip install requests msgpack eth-account eth-utils python-dotenv colorama
 ```
 
-### Step 4 — Create an agent wallet
+### Step 4 - Create an agent wallet
 
 1. Go to [Hotstuff.trade](https://app.hotstuff.trade/join/hot)
 2. Navigate to **Settings → Agents → Create Agent**
@@ -157,7 +157,7 @@ Create a `.env` file in the project folder:
 PRIVATE_KEY=0x_your_agent_private_key_here
 
 # ── Your MAIN wallet address ───────────────────────────
-# (NOT the agent address — the address shown in your dashboard)
+# (NOT the agent address - the address shown in your dashboard)
 WALLET_ADDRESS=0x_your_main_wallet_address_here
 
 # ── The trader you want to copy (their MAIN wallet) ────
@@ -252,7 +252,7 @@ On successful start:
 
 ## 🖥️ Running 24/7 on a VPS
 
-For continuous operation, use a cheap VPS (Vultr, DigitalOcean, Hetzner — ~$5/month).
+For continuous operation, use a cheap VPS (Vultr, DigitalOcean, Hetzner - ~$5/month).
 
 ### Ubuntu VPS setup
 
@@ -278,7 +278,7 @@ screen -S copybot
 source venv/bin/activate
 python hotstuff_copy_bot.py
 
-# Press Ctrl+A then D to detach — bot keeps running
+# Press Ctrl+A then D to detach - bot keeps running
 ```
 
 ### Reconnect later
@@ -326,12 +326,12 @@ UNREALIZED_LOSS_LIMIT=8
 
 Telegram integration lets you receive trade alerts and control the bot from your phone. Setup takes about 2 minutes.
 
-### Step 1 — Create a Telegram bot & get your token
+### Step 1 - Create a Telegram bot & get your token
 
 1. Open Telegram and search for **`@BotFather`**
 2. Start a chat and send `/newbot`
 3. BotFather will ask for a **name** (e.g. `My Copy Bot`) and a **username** (must end in `bot`, e.g. `myhotstuff_bot`)
-4. BotFather replies with your token — it looks like this:
+4. BotFather replies with your token - it looks like this:
 
 ```
 Done! Congratulations on your new bot.
@@ -348,7 +348,7 @@ TELEGRAM_TOKEN=<your_bot_token_here>
 
 ---
 
-### Step 2 — Get your Chat ID
+### Step 2 - Get your Chat ID
 
 1. Open Telegram and search for **`@userinfobot`**
 2. Start a chat and send any message (e.g. `/start`)
@@ -368,14 +368,14 @@ TELEGRAM_CHAT_ID=123456789
 
 ---
 
-### Step 3 — Start your bot on Telegram
+### Step 3 - Start your bot on Telegram
 
 Before the copy bot can message you, you need to start your Telegram bot once:
 
 1. In Telegram, search for your bot by username (e.g. `@myhotstuff_bot`)
 2. Press **Start** or send `/start`
 
-That's it — the copy bot will now send you alerts.
+That's it - the copy bot will now send you alerts.
 
 ---
 
@@ -418,7 +418,7 @@ Daily loss: $0.82
 - 🔴 Do not copy HFT, Market Maker, or scalper traders
 - 🔴 Always test with a small amount before scaling up
 - 🔴 Never share your `.env` file or private key with anyone
-- 🔴 Secure your VPS — treat it like a wallet
+- 🔴 Secure your VPS - treat it like a wallet
 - 🔴 Check your local regulations regarding automated trading
 
 ---
@@ -441,7 +441,7 @@ Daily loss: $0.82
 
 <br/><br/>
 
-**If this helped you, please give it a ⭐ Star — it means a lot!**
+**If this helped you, please give it a ⭐ Star - it means a lot!**
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,12,20&height=100&section=footer" width="100%"/>
 
